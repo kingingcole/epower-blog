@@ -1,22 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Navbar = () => {
+const Navbar = ({node}) => {
   return (
     <NavbarWrapper>
-      <TextLogo>Epower Blog</TextLogo>
+      <NavbarText>{node || <>Epower blog</>}</NavbarText>
     </NavbarWrapper>
   )
 }
 
 const NavbarWrapper = styled.nav`
   background: rgb(24, 136, 165);
-  padding: 10px;
+  padding: 15px;
   text-align: center
 `
 
-const TextLogo = styled.h1`
-  font-size: 50px;
+const NavbarText = styled.div`
   color: white;
   margin: 0
 `

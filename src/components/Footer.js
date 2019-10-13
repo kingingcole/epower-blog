@@ -9,9 +9,9 @@ const Footer = () => {
   )
 }
 
-const FooterWrapper = styled.nav`
+const FooterWrapper = styled.footer`
   background: rgb(24, 136, 165);
-  padding: 10px;
+  padding: 30px;
   text-align: center
 `
 
