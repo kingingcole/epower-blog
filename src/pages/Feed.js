@@ -1,31 +1,76 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PostCard from '../components/PostCard'
+import Pagination from '../components/Pagination'
 import axios from 'axios'
+import queryString from 'query-string'
+
 
 const Feed = () => {
 
-  const [ posts, setPosts ] = useState([])
-  const url = 'https://epower.ng/wp-json/wp/v2/posts'
+  const [ allPosts, setAllPosts ] = useState([])
+  const [ postsToDisplay, setpostsToDisplay ] = useState([])
+  const [ showPrevious, setShowPrevious ] = useState(false)
+  const [ showNext, setShowNext ] = useState(true)
 
-  const fetchPosts = url => {
+  const url = 'https://epower.ng/wp-json/wp/v2/posts'
+  const POSTS_PER_PAGE = 6
+  const pageQueries = queryString.parse(window.location.search);
+  const pageNumber = Number(pageQueries.page)
+  console.log(pageQueries, pageNumber)
+
+  const fetchAllPosts = url => {
     axios.get(url)
       .then(res => {
         console.log(res.data)
-        setPosts(res.data)
+        setAllPosts(res.data)
       })
   }
 
+  const handleNextClick = () => {
+    let page;
+    page = pageQueries.page ? pageNumber : 1;
+    let query = {page: page + 1}
+    window.location.search = queryString.stringify(query);
+  }
+
+  const handlePreviousClick = () => {
+    let query = {page: pageNumber - 1}
+    window.location.search = queryString.stringify(query);
+  }
+
   useEffect(() => {
-    fetchPosts(url)
+    fetchAllPosts(url)
   }, [])
 
-  if (posts.length === 0) return <p className='text-center p-3 m-0'>Loading</p>
+  useEffect(() => {
+    const pageQueries = queryString.parse(window.location.search);
+    const pageNumber = Number(pageQueries.page)
+    if (pageNumber > 1) setShowPrevious(true)
+
+    let startFrom, endAt;
+
+    if (pageNumber > 1){
+      startFrom = (pageNumber - 1) * POSTS_PER_PAGE
+      endAt = pageNumber * POSTS_PER_PAGE
+
+      if (allPosts.length < endAt) setShowNext(false)
+    } else {
+      startFrom = 0;
+      endAt = POSTS_PER_PAGE
+    }
+
+    setpostsToDisplay(allPosts.slice(startFrom, endAt))
+
+
+  }, [allPosts])
+
+  if (postsToDisplay.length === 0) return <p className='text-center p-3 m-0'>Loading</p>
 
   return (
     <FeedPage>
       <div className="row">
-        {posts && posts.map(post =>  (
+        {postsToDisplay && postsToDisplay.map(post =>  (
           <div className="col-sm-12 col-md-6 col-lg-4" key={post.id}>
             <PostCard
               thumbnail={post.featured_image_thumbnail}
@@ -35,6 +80,8 @@ const Feed = () => {
           </div>
         ))}
       </div>
+
+      <Pagination showPrevious={showPrevious} showNext={showNext} onNextClick={handleNextClick} onPreviousClick={handlePreviousClick}/>
     </FeedPage>
   )
 }
