@@ -15,10 +15,10 @@ const SinglePostPage = ({ match }) => {
     const url = `https://epower.ng/wp-json/wp/v2/posts/${id}`
     axios.get(url)
       .then(res => {
-        console.log(res.data)
         setSinglePost(res.data)
         setNavbarText(res.data.title.rendered)
       })
+      .catch(err => console.log(err))
   }
 
   useEffect(() => {

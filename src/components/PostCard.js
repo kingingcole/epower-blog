@@ -10,8 +10,6 @@ const PostCard = ({thumbnail, title, excerpt, slug, id}) => {
     excerpt = `${excerpt}...`
   }
 
-  console.log(slug)
-
   return (
     <PostCardWrapper className="card" to={`${slug}/${id}`}>
       <PostImage src={thumbnail} className="card-img-top" alt="..."/>
@@ -24,9 +22,9 @@ const PostCard = ({thumbnail, title, excerpt, slug, id}) => {
 }
 
 const PostCardWrapper = styled(Link)`
-  box-shadow: 2px 4px 10px 5px whitesmoke;  
+  box-shadow: 3px 4px 10px 10px whitesmoke;  
   border: none;
-  width: 20rem;
+  width: 19rem;
   margin: 20px auto;
   color: black;
   

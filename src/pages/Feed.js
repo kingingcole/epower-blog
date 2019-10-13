@@ -17,14 +17,13 @@ const Feed = () => {
   const POSTS_PER_PAGE = 6
   const pageQueries = queryString.parse(window.location.search)
   const pageNumber = Number(pageQueries.page)
-  console.log(pageQueries, pageNumber)
 
   const fetchAllPosts = url => {
     axios.get(url)
       .then(res => {
-        console.log(res.data)
         setAllPosts(res.data)
       })
+      .catch(err => console.log(err))
   }
 
   const handleNextClick = () => {
