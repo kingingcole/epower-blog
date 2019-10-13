@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {Link} from "react-router-dom";
 
-const PostCard = ({thumbnail, title, excerpt, slug}) => {
+const PostCard = ({thumbnail, title, excerpt, slug, id}) => {
 
   excerpt = `${excerpt.slice(0, 270)}` // reduce length of excerpt chars to maintain uniform height for cards
   if (!excerpt.endsWith('...')) {
@@ -10,8 +10,10 @@ const PostCard = ({thumbnail, title, excerpt, slug}) => {
     excerpt = `${excerpt}...`
   }
 
+  console.log(slug)
+
   return (
-    <PostCardWrapper className="card" to={slug}>
+    <PostCardWrapper className="card" to={`${slug}/${id}`}>
       <PostImage src={thumbnail} className="card-img-top" alt="..."/>
       <PostDesc className="card-body">
         <PostTitle className="card-text">{title}</PostTitle>
@@ -24,7 +26,7 @@ const PostCard = ({thumbnail, title, excerpt, slug}) => {
 const PostCardWrapper = styled(Link)`
   box-shadow: 2px 4px 10px 5px whitesmoke;  
   border: none;
-  width: 19rem;
+  width: 20rem;
   margin: 20px auto;
   color: black;
   

@@ -11,10 +11,9 @@ function App () {
   return (
     <Router>
       <div className="App">
-        <Navbar />
         <Switch>
           <Route exact path='/' component={Feed}/>
-          <Route exact path='/:slug' component={SinglePostPage}/>
+          <Route exact path='/:slug/:id' component={SinglePostPage}/>
         </Switch>
         <Footer/>
       </div>
