@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import Navbar from '../components/Nav'
+import moment from 'moment'
 
 const SinglePostPage = ({ match }) => {
 
@@ -27,6 +28,7 @@ const SinglePostPage = ({ match }) => {
   let navbarNode = (
     <Fragment>
       <h1 style={{ fontSize: '50px' }}>{navbarText}</h1>
+      {singlePost && <p>PUBLISHED ON {moment(singlePost.date).format('MMMM DD, YYYY').toUpperCase()}</p>}
     </Fragment>
   )
 
